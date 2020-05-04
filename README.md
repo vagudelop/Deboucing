@@ -17,3 +17,6 @@ Y un unico evento o transicion:
 •El diagrama de la máquina de estados representa esta vez como la ocurrencia de un evento **TICK ( TICK_E )**.
 
 Se van a tener dos variables, Button_Press y Temp_Press , se definen con este tipo; Button_Press mantiene los valores finales para los botones después de que se hayan eliminado, mientras que Temp_Press mantiene valores intermedios para los botones durante la eliminación de rebotes.
+
+El diagrama de la maquina de estados es:
+![[diagrama]()
