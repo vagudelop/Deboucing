@@ -5,8 +5,11 @@ El ejercicio se puede encontrar [aqui](https://www.eeweb.com/profile/tommyg/arti
 Vamos a tener 4 estados los cuales son:
 
 •En espera: esperando que se active cualquier botón del puerto.
+
 •Detectado: se ha activado un botón para que se ingrese este estado y los valores del puerto de los botones se registran con Temp_Press. Cada 10 ms, el puerto del botón se vuelve a comprobar y, si bien sigue siendo el mismo valor, se incrementa un contador. En lenguaje de máquina de estados, la variable se conoce como "una variable de estado extendida".
+
 •Espera para liberar: si el contador alcanza un valor mínimo predefinido, 'MIN_BUTTON_COUNT', Temp_press ahora se considera válido y se ingresa el estado WaitForRelease para esperar a que se libere el botón antes de que se actualice la variable, Button_Press, que contiene el valor final del botón.
+
 •Actualización: el botón se ha liberado y, por lo tanto, el valor final Button_Press se actualiza con el valor temporal sin rebote 'Temp_Press'.
 
 Y un unico evento o transicion:
