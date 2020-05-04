@@ -125,3 +125,9 @@ void actualizacion (void){
 	estado_actual = en_espera;
 }
 ```
+Y por ultimo en **stm32l4xx_it.c** ubicado en la carpeta **src** en la parte del **void SysTick_Handler(void)**, ponemos :
+```
+/* USER CODE BEGIN SysTick_IRQn 0 */
+  tick_time++;
+  /* USER CODE END SysTick_IRQn 0 */
+```
