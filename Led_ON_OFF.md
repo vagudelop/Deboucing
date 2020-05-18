@@ -63,53 +63,53 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  current_input = get_input();//se pregunta por el estado del pulsador
-	  	  	  switch(current_state)//El switch nos sirve para ejecutar diferentes casos en función del resultado
-			  //de una expresión o variable en este caso el current_state - 4 diferentes estados-
-	  	  	  {
-	  	  	  case LED_ON_UP:
-	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
-	  	  		  {
-	  	  		  case PB_DOWN:
-	  	  			  current_state = LED_ON_DOWN;
-	  	  			  cuenta++;
-	  	  			  break;
-	  	  		  default:
-	  	  			  current_state = LED_ON_UP;
-	  	  		  }
+	  	  	switch(current_state)//El switch nos sirve para ejecutar diferentes casos en función del resultado
+			//de una expresión o variable en este caso el current_state - 4 diferentes estados-
+	  	        {
+	  	  	case LED_ON_UP:
+	  	  		switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		{
+	  	  		case PB_DOWN:
+	  	  	 	  current_state = LED_ON_DOWN;
+	  	  		  cuenta++;
 	  	  		  break;
-	  	  	  case LED_ON_DOWN:
-	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
-	  	  		  {
-	  	  		  case PB_DOWN:
-	  	  			  current_state = LED_ON_DOWN;
-	  	  			  break;
-	  	  		  default:
-	  	  			  current_state = LED_OFF_UP;
-	  	  		  }
+	  	  		default:
+	  	  		  current_state = LED_ON_UP;
+	  	  		}
+	  	  		break;
+	  	       case LED_ON_DOWN:
+	  	  		switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		{
+	  	  		case PB_DOWN:
+	  	  	 	  current_state = LED_ON_DOWN;
 	  	  		  break;
-	  	  	  case LED_OFF_UP:
-	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
-	  	  		  {
-	  	  		  case PB_DOWN:
-	  	  			  current_state = LED_OFF_DOWN;
-	  	  			  cuenta++;
-	  	  			  break;
-	  	  		  default:
-	  	  			  current_state = LED_OFF_UP;
-	  	  		  }
+	  	  		default:
+	  	  		  current_state = LED_OFF_UP;
+	  	  		}
+	  	  		break;
+	  	  	case LED_OFF_UP:
+	  	  		switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		{
+	  	  		case PB_DOWN:
+	  	  		  current_state = LED_OFF_DOWN;
+	  	  		  cuenta++;
 	  	  		  break;
-	  	  	  case LED_OFF_DOWN:
-	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
-	  	  		  {
-	  	  		  case PB_DOWN:
-	  	  			  current_state = LED_OFF_DOWN;
-	  	  			  break;
-	  	  		  default:
-	  	  			  current_state = LED_ON_UP;
-	  	  		  }
+	  	  		default:
+	  	  		  current_state = LED_OFF_UP;
+	  	  		}
+	  	  		break;
+	  	  	case LED_OFF_DOWN:
+	  	  		switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		{
+	  	  		case PB_DOWN:
+	  	  		  current_state = LED_OFF_DOWN;
 	  	  		  break;
+	  	  		default:
+	  	  		  current_state = LED_ON_UP;
+	  	  		}
+	  	  		break;
 	  	  	  }
-	  	  	  set_output(current_state);
+	  	  	set_output(current_state);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
