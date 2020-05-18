@@ -63,7 +63,8 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  current_input = get_input();//se pregunta por el estado del pulsador
-	  	  	  switch(current_state)//El switch nos sirve para ejecutar diferentes casos en función del resultado de una expresión o      variable en este caso el current_state - 4 diferentes estados-
+	  	  	  switch(current_state)//El switch nos sirve para ejecutar diferentes casos en función del resultado
+			  //de una expresión o variable en este caso el current_state - 4 diferentes estados-
 	  	  	  {
 	  	  	  case LED_ON_UP:
 	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
