@@ -1,4 +1,4 @@
-## LED ON_OFF Con maquinas de estado
+## LED ON_OFF Con maquinas de estado-tablas
 
 En este documento se describira el funcionamiento de una maquina de estado y su implementacion.
 
