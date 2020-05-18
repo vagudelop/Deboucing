@@ -45,4 +45,105 @@ void set_output(int8_t current_state);
 
 /* USER CODE END EFP */
 ```
+Ahora en el main.c ponemos la estructura de la maquina como tal
 
+```
+int main(void)
+{
+
+  /* USER CODE BEGIN 2 */
+  uint8_t cuenta = 0;//uint8_t ->sin signo de 8 bits, cuenta la cantidad de pulsaciones que hay
+  current_state = LED_OFF_UP; // se define el primer estado
+  /* USER CODE END 2 */
+  
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+	  current_input = get_input();//se pregunta por el estado del pulsador
+	  	  	  switch(current_state)//El switch nos sirve para ejecutar diferentes casos en función del resultado de una expresión o      variable en este caso el current_state - 4 diferentes estados-
+	  	  	  {
+	  	  	  case LED_ON_UP:
+	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		  {
+	  	  		  case PB_DOWN:
+	  	  			  current_state = LED_ON_DOWN;
+	  	  			  cuenta++;
+	  	  			  break;
+	  	  		  default:
+	  	  			  current_state = LED_ON_UP;
+	  	  		  }
+	  	  		  break;
+	  	  	  case LED_ON_DOWN:
+	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		  {
+	  	  		  case PB_DOWN:
+	  	  			  current_state = LED_ON_DOWN;
+	  	  			  break;
+	  	  		  default:
+	  	  			  current_state = LED_OFF_UP;
+	  	  		  }
+	  	  		  break;
+	  	  	  case LED_OFF_UP:
+	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		  {
+	  	  		  case PB_DOWN:
+	  	  			  current_state = LED_OFF_DOWN;
+	  	  			  cuenta++;
+	  	  			  break;
+	  	  		  default:
+	  	  			  current_state = LED_OFF_UP;
+	  	  		  }
+	  	  		  break;
+	  	  	  case LED_OFF_DOWN:
+	  	  		  switch(current_input)//aca se pregunta por el estado del pulsador -2 diferentes estados-
+	  	  		  {
+	  	  		  case PB_DOWN:
+	  	  			  current_state = LED_OFF_DOWN;
+	  	  			  break;
+	  	  		  default:
+	  	  			  current_state = LED_ON_UP;
+	  	  		  }
+	  	  		  break;
+	  	  	  }
+	  	  	  set_output(current_state);
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+```
+Por ultimo se configuran las funciones y/o variables
+```
+
+/* USER CODE BEGIN 4 */
+int8_t get_input(void) //estado del pulsador
+{
+	if (!HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin))
+		return PB_DOWN;
+	else
+		return PB_UP;
+}
+
+void set_output(int8_t current_state) //prende o no el led dependiendo del estado en que este
+{
+	switch(current_state)
+	{
+	case LED_ON_UP:
+	case LED_ON_DOWN:
+		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		//HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+		break;
+	case LED_OFF_UP:
+	case LED_OFF_DOWN:
+		//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+		break;
+	}
+
+}
+
+/* USER CODE END 4 */
+```
