@@ -27,30 +27,33 @@ Una vez claros los estados y los eventos vamos a realizar la definicion de estos
 /* USER CODE BEGIN ET */
 //Defino la cantidad maxima de estados y de transiciones para las dimensiones de la tabla de estados
 #define MAX_ESTADOS 4
-#define MAX_TRANSI 1
+#define MAX_TRANSI 2
 //Establezco la definicion de los estados y transiciones
 enum estados {en_espera, detectado, espera_p_liberar, actualizacion} estado_actual;
-enum transiciones {tick_e} transicion_actual;
+enum transiciones {tick_e, tick_en} transicion_actual;
 
-typedef void (*transition)();
-uint64_t tick_time;
+
+
+uint64_t tick_time; //lo que me mide el tiempo
+typedef void (*transition)(); //para la tabla de estados
 ```
 En el main.c ponemos:
 ```
 /* USER CODE BEGIN 0 */
 
-uint8_t en_espera_(void);
+void inicial_(void);
+int8_t en_espera_(void);
 void detectado_(void);
 void espera_p_liberar_(void);
 void actualizacion_(void);
 
 //creamos la tabla de estados
 transition state_table[MAX_ESTADOS][MAX_TRANSI] = {
-	//	tick_e
-		{en_espera_},
-		{detectado_},
-		{espera_p_liberar_},
-		{actualizacion_},
+	//	tick_e         tick_en
+		{detectado_, inicial_},
+		{detectado_, en_espera_},
+		{espera_p_liberar_, inicial_},
+		{actualizacion_, inicial_}
 };
 
 
@@ -59,71 +62,65 @@ transition state_table[MAX_ESTADOS][MAX_TRANSI] = {
 int main(void)
 {
   
-  //defino el temporizador que me cuenta 10ms y el contador que cuenta el numero de pulsaciones
-  uint16_t c=0;
-  uint16_t t=10;
 
 
   //se establece el estado inicial
   estado_actual =  en_espera;
   /* USER CODE END 2 */
-  int8_t inicial;
-  inicial = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  transicion_actual = en_espera_() ;
-	  if( estado_actual>=0 && estado_actual <= MAX_ESTADOS &&
-	 	 transicion_actual >= 0 && transicion_actual <= MAX_TRANSI){
-	 	 state_table[MAX_ESTADOS][MAX_TRANSI]();
+	transicion_actual = en_espera_() ;
+	  	  if( transicion_actual>=0 && transicion_actual <= MAX_TRANSI &&
+	  	 	 estado_actual >= 0 && estado_actual <= MAX_ESTADOS){
+	  	 	 state_table[estado_actual][transicion_actual]();}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
 
+/* USER CODE BEGIN 4 */
+void inicial_(void){
+	estado_actual= en_espera;
+}
 
-uint8_t en_espera_ (){
+int8_t en_espera_(void){
 	// es este estado se espera que se oprima el boton
 	//por esto se pregunta si se detecto una pulsacion
 	//y al detectarse se activa la transicion
-
 	if (!HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)){
-		return tick_e;
+		    	return tick_e;
 	}else{
-		estado_actual =  en_espera;
-	}
+		return tick_en;
+	 }
 }
 
 void detectado_(void){
-	// Se define la variable temp_press que guarda el valor del puerto del botn
-	uint8_t temp_press;
-	temp_press = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
-	if (tick_time % t == 0){
-		if(temp_press==inicial){
-			c++;
-		}
-		else if (temp_press!=inicial){
-			estado_actual = detectado;
-		}
-		if (c>=10){
-			c=0;
-			estado_actual= espera_p_liberar;
-		}
-	}
 
+	if ((tick_time%10)==0){//Se garantiza que pasen 10 ms
+			c++;
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
+			estado_actual= espera_p_liberar;
+	}
+	else {
+			estado_actual = en_espera;
+			transicion_actual= tick_en;
+		}
 }
+
 
 void espera_p_liberar_(void){
 	if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)){
-		estado_actual = actualizacion;
+			estado_actual = actualizacion;
 	}
 }
 
-void actualizacion (void){
+void actualizacion_(void){
 	estado_actual = en_espera;
 }
+
 ```
 Y por ultimo en **stm32l4xx_it.c** ubicado en la carpeta **src** en la parte del **void SysTick_Handler(void)**, ponemos :
 ```
