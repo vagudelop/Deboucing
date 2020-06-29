@@ -113,6 +113,7 @@ void detectado_(void){
 
 void espera_p_liberar_(void){
 	if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)){
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
 			estado_actual = actualizacion;
 	}
 }
